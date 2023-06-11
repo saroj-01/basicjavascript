@@ -76,14 +76,62 @@ form.addEventListener("submit", (e) => {
 
 // Btnremove.addEventListener("click", () => {
 //   clearTimeout(clearId);
-// });
+// });~
 
-const clearId = setInterval(() => {
-  const now = new Date();
-  console.log(now.toLocaleTimeString());
-  document.write(now.toLocaleTimeString());
-}, 1000);
+// const clearId = ~setInterval(() => {
+//   const now = new Date();
+//   console.log(now.toLocaleTimeString());
+//   document.write(now.toLocaleTimeString());
+// }, 1000);
 
-setTimeout(() => {
-  clearInterval(clearId);
-}, 5000);
+// setTimeout(() => {
+//   clearInterval(clearId);
+// }, 5000);
+
+class BankAccount {
+  CustomerName;
+  accountNumber;
+  #balance = 0;
+  constructor(CustomerName, balance = 0) {
+    this.CustomerName = CustomerName;
+    this.accountNumber = Date.now();
+    this.#balance = balance;
+  }
+  deposit(amount) {
+    this.#balance += amount;
+  }
+  withdraw(amount) {
+    this.#balance -= amount;
+  }
+  setbalance(newbalance) {
+    if (isNaN(newbalance)) {
+      throw new Error("Number must be valid!");
+    }
+    this.#balance = newbalance;
+  }
+  getbalance() {
+    return this.#balance;
+  }
+}
+class CurrentAccount extends BankAccount {
+  transactionsLimit = 50000;
+  constructor(CustomerName, balance = 0) {
+    super(CustomerName, balance);
+  }
+  #calculateInterest(amount) {
+    console.log(`Calculating amount intrest for:${amount}`);
+
+    const interest = amount * 0.05;
+    console.log(`calculated interest is: ${interest}`);
+  }
+  takeBusinessLoan(amount) {
+    this.#calculateInterest(amount);
+    console.log(`Taking business loan is :${amount}`);
+  }
+}
+
+const ramAccount = new CurrentAccount("Ram", 5000);
+// ramAccount.setbalance(9000);
+// console.log(ramAccount.getbalance());
+ramAccount.takeBusinessLoan(20000);
+console.log(ramAccount);
