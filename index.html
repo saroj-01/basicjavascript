@@ -8,10 +8,25 @@
     <link rel="stylesheet" type="text/css" href="./index.css" />
   </head>
   <body>
-    <input type="text" placeholder="enter data" />
-    <button id="add">add data</button>
-    <button id="clear">logout</button>
-
+    <div class="container">
+      <div class="weather">
+        <div class="weather1">17</div>
+        <div class="weather2">
+          <p>location</p>
+          <span> 11:01 - Monday 2023-04-12 </span>
+        </div>
+        <div class="weather3">
+          <p><img src="" alt="condition" /></p>
+          <span> condition </span>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <form>
+        <input type="text" placeholder="Enter location" class="searchField" />
+        <button type="submit">Search</button>
+      </form>
+    </nav>
     <script src="./index.js"></script>
   </body>
 </html>

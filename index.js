@@ -465,35 +465,107 @@
 // calculation(myArr, (a) => a + 5);
 // calculation(myArr, (a) => a - 5);
 
-let personList = [];
-const fetchedData = (callBack) => {
-  setTimeout(
-    (callBack) => {
-      personList.push(
-        { id: 1, name: "Ram", age: 32 },
-        { id: 2, name: "hari", age: 45 },
-        { id: 3, name: "gita", age: 43 },
-        { id: 4, name: "sita", age: 12 }
-      );
+// let personList = [];
+// const fetchedData = (callBack) => {
+//   setTimeout(
+//     (callBack) => {
+//       personList.push(
+//         { id: 1, name: "Ram", age: 32 },
+//         { id: 2, name: "hari", age: 45 },
+//         { id: 3, name: "gita", age: 43 },
+//         { id: 4, name: "sita", age: 12 }
+//       );
 
-      callBack();
-      console.log(personList);
-    },
-    4000,
-    callBack
-  );
-};
-// console.log(personList);
+//       callBack();
+//       console.log(personList);
+//     },
+//     4000,
+//     callBack
+//   );
+// };
+// // console.log(personList);
+// // fetchedData(dispalyName);
+// // console.log(personList);
+// const dispalyName = () => {
+//   setTimeout(() => {
+//     for (let i = 0; i < personList.length; i++) {
+//       const p = document.createElement("p");
+//       p.innerHTML = personList[i].name;
+//       document.body.append(p);
+//     }
+//   }, 1000);
+// };
+
 // fetchedData(dispalyName);
-// console.log(personList);
-const dispalyName = () => {
-  setTimeout(() => {
-    for (let i = 0; i < personList.length; i++) {
-      const p = document.createElement("p");
-      p.innerHTML = personList[i].name;
-      document.body.append(p);
-    }
-  }, 1000);
-};
 
-fetchedData(dispalyName);
+const tempratureField = document.querySelector(".weather1");
+const cityField = document.querySelector(".weather2 p");
+const dateField = document.querySelector(".weather2 span");
+const emojiField = document.querySelector(".weather3 img");
+const weatherField = document.querySelector(".weather3 span");
+const form = document.querySelector("form");
+const input = document.querySelector(".searchField");
+let target = "Kathmandu";
+const fetchedData = async (target) => {
+  try {
+    const res = await fetch(
+      `https://api.weatherapi.com/v1/current.json?key=0c28e52f21ce44628ca92338231406&q=${target}`
+    );
+    const data = await res.json();
+    console.log(data);
+
+    const {
+      current: {
+        temp_c,
+        condition: { icon, text },
+      },
+      location: { name, localtime },
+    } = data;
+
+    tempratureField.innerHTML = `${temp_c}&deg;C`;
+    cityField.innerHTML = name;
+    emojiField.src = icon;
+    weatherField.innerHTML = text;
+
+    const exactTime = localtime.split(" ")[1];
+    const exactDate = localtime.split(" ")[0];
+
+    const currentDate = new Date();
+    const currentDay = getTodayDate(currentDate.getDay());
+
+    dateField.innerHTML = `${exactTime} -${currentDay} ${exactDate} `;
+  } catch (error) {
+    alert("location not found!");
+  }
+};
+fetchedData(target);
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (input.value) {
+    alert("Field must be filled");
+  } else {
+    target = input.value;
+    fetchedData(target);
+  }
+});
+function getTodayDate(num) {
+  switch (num) {
+    case 0:
+      return "Sunday";
+    case 1:
+      return "Monday";
+    case 2:
+      return " Tuesday";
+    case 3:
+      return "Wednesday";
+    case 4:
+      return "Thursady";
+    case 5:
+      return "Friday";
+    case 6:
+      return "Saturday";
+    default:
+      return "Invalid";
+  }
+}
