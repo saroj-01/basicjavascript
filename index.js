@@ -542,7 +542,7 @@ fetchedData(target);
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (!input.value) {
+  if (input.value.trim() === "") {
     alert("Field must be filled");
   } else {
     target = input.value;
